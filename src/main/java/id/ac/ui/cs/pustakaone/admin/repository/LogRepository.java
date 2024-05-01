@@ -6,6 +6,6 @@ import id.ac.ui.cs.pustakaone.admin.model.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface LogRepository extends JpaRepository<Log, String>{
+public interface LogRepository extends JpaRepository<Log, Long>{
 
 }
