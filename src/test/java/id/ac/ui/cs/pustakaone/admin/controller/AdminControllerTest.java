@@ -1,5 +1,6 @@
 package id.ac.ui.cs.pustakaone.admin.controller;
 
+import id.ac.ui.cs.pustakaone.admin.model.Log;
 import id.ac.ui.cs.pustakaone.admin.service.AdminService;
 import id.ac.ui.cs.pustakaone.admin.service.LogDeleteService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.http.MediaType;
+import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminControllerTest {
@@ -48,6 +53,21 @@ public class AdminControllerTest {
         mockMvc.perform(get("/admin/payments"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Payment List"));
+    }
+
+    @Test
+    public void testGetLogs() throws Exception {
+        Log log1 = new Log();
+        Log log2 = new Log();
+        List<Log> logs = Arrays.asList(log1, log2);
+
+        when(logDeleteServiceMock.getAllLog()).thenReturn(logs);
+
+
+        mockMvc.perform(get("/admin/logs")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
