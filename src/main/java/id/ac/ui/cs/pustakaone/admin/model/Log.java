@@ -13,8 +13,8 @@ import lombok.Setter;
 @Table(name = "Log")
 public class Log {
     @Id
-    @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "action")
     String action;
@@ -23,7 +23,7 @@ public class Log {
     String date;
 
     public Log(String action, String date){
-        this.id = UUID.randomUUID().toString();
+
         this.setAction(action);
         this.setDate(date);
     }
