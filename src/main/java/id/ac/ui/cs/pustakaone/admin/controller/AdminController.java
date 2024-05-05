@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -19,30 +20,30 @@ public class AdminController {
     @Autowired
     private LogDeleteService logService;
 
-    @RequestMapping(value = "/admin/payments", method = RequestMethod.GET)
+    @RequestMapping(value = "/payments", method = RequestMethod.GET)
     public ResponseEntity<String> getPayments() {
         return service.retrievePaymentList();
     }
 
-    @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<String> getUsers() {
         return service.retrieveUsers();
     }
 
-    @RequestMapping(value = "/admin/logs", method = RequestMethod.GET)
+    @RequestMapping(value = "/logs", method = RequestMethod.GET)
     public List<Log> getLogs() {
         return logService.getAllLog();
     }
 
-    @RequestMapping(value = "/admin/update-payment", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-payment", method = RequestMethod.POST)
     public ResponseEntity<String> updatePayment(@RequestBody HashMap<String, String> body) {
-        String idCart = body.get("id");
+        Long idCart = Long.valueOf(body.get("id"));
         return service.updatePayment(idCart);
     }
 
-    @RequestMapping(value = "/admin/delete-review", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-review", method = RequestMethod.POST)
     public ResponseEntity<String> deleteReview(@RequestBody HashMap<String, String> body) {
-        String idReview = body.get("id");
+        Long idReview = Long.valueOf(body.get("id"));
         return service.deleteReview(idReview);
     }
 }

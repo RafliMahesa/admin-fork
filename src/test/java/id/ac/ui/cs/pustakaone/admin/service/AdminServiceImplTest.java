@@ -62,7 +62,7 @@ public class AdminServiceImplTest {
     @Test
     public void testUpdatePayment() {
         // Arrange
-        String idCart = "123";
+        Long idCart = Long.valueOf(123);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment Updated", HttpStatus.OK);
         when(adminRepositoryMock.updatePayment(idCart)).thenReturn(expectedResponse);
 
@@ -77,7 +77,7 @@ public class AdminServiceImplTest {
     @Test
     public void testDeleteReview() {
         // Arrange
-        String idReview = "456";
+        Long idReview = Long.valueOf(456);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
         when(adminRepositoryMock.deleteReview(idReview)).thenReturn(expectedResponse);
 

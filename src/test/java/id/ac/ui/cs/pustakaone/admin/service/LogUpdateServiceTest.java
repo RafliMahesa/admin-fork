@@ -28,7 +28,7 @@ public class LogUpdateServiceTest {
     @Test
     public void testActionReturnsCorrectMessage() {
         // Arrange
-        String id = "456";
+        Long id = Long.valueOf(456);
         String expectedMessage = "Cart dengan id 456 berhasil diupdate";
 
         // Act
@@ -41,7 +41,7 @@ public class LogUpdateServiceTest {
     @Test
     public void testCreateLog() {
         // Arrange
-        String id = "456";
+        Long id = Long.valueOf(456);
         Log expectedLog = new Log("Cart dengan id 456 berhasil diupdate", logUpdateService.getCurrentDate());
         when(logRepository.save(any(Log.class))).thenReturn(expectedLog);
 

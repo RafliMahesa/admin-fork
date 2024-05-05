@@ -14,14 +14,14 @@ public abstract class LogService {
     @Autowired
     private LogRepository logRepository;
 
-    public Log createLog(String id){
+    public Log createLog(Long id){
         String date = getCurrentDate();
         String action = action(id);
         Log log = new Log(action, date);
         return logRepository.save(log);
     }
 
-    public abstract String action(String id);
+    public abstract String action(Long id);
 
     public String getCurrentDate(){
         LocalDate today = LocalDate.now();

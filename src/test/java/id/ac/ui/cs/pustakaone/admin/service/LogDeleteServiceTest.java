@@ -27,7 +27,7 @@ public class LogDeleteServiceTest {
 
     @Test
     public void testActionReturnsCorrectMessage() {
-        String id = "123";
+        Long id = Long.valueOf(123);
         String expectedMessage = "Review dengan id 123 berhasil dihapus";
 
         String actualMessage = logDeleteService.action(id);
@@ -37,7 +37,7 @@ public class LogDeleteServiceTest {
 
     @Test
     public void testCreateLog() {
-        String id = "123";
+        Long id = Long.valueOf(123);
         Log expectedLog = new Log("Review dengan id 123 berhasil dihapus", logDeleteService.getCurrentDate());
         when(logRepository.save(any(Log.class))).thenReturn(expectedLog);
 

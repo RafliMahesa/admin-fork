@@ -6,6 +6,6 @@ import org.springframework.http.ResponseEntity;
 public interface AdminService {
     ResponseEntity<String> retrievePaymentList();
     ResponseEntity<String> retrieveUsers();
-    ResponseEntity<String> updatePayment(String idCart);
-    ResponseEntity<String> deleteReview(String idReview);
+    ResponseEntity<String> updatePayment(Long idCart);
+    ResponseEntity<String> deleteReview(Long idReview);
 }

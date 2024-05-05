@@ -85,7 +85,7 @@ public class AdminControllerTest {
         HashMap<String, String> requestBody = new HashMap<>();
         requestBody.put("id", "123");
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment Updated", HttpStatus.OK);
-        when(adminServiceMock.updatePayment("123")).thenReturn(expectedResponse);
+        when(adminServiceMock.updatePayment(Long.valueOf(123))).thenReturn(expectedResponse);
 
         mockMvc.perform(post("/admin/update-payment")
                         .contentType("application/json")
@@ -100,7 +100,7 @@ public class AdminControllerTest {
         HashMap<String, String> requestBody = new HashMap<>();
         requestBody.put("id", "456");
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
-        when(adminServiceMock.deleteReview("456")).thenReturn(expectedResponse);
+        when(adminServiceMock.deleteReview(Long.valueOf(456))).thenReturn(expectedResponse);
 
         mockMvc.perform(post("/admin/delete-review")
                         .contentType("application/json")

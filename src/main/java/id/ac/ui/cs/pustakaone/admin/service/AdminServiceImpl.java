@@ -30,13 +30,13 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public ResponseEntity<String> updatePayment(String idCart){
+    public ResponseEntity<String> updatePayment(Long idCart){
         logUpService.createLog(idCart);
         return adminRepository.updatePayment(idCart);
     }
 
     @Override
-    public ResponseEntity<String> deleteReview(String idReview){
+    public ResponseEntity<String> deleteReview(Long idReview){
         logDelService.createLog(idReview);
         return adminRepository.deleteReview(idReview);
     }
