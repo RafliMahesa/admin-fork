@@ -27,7 +27,8 @@ public class AdminRepositoryTest {
     public void testRetrievePaymentList() {
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
 
-        when(restTemplate.exchange("http://localhost:8080/all-cart", HttpMethod.GET, null, String.class))
+        String url = "http://localhost:8081/shop/cart/getCarts";
+        when(restTemplate.exchange(url, HttpMethod.GET, null, String.class))
                 .thenReturn(expectedResponse);
 
         ResponseEntity<String> result = adminRepository.retrievePaymentList();
