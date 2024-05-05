@@ -1,6 +1,5 @@
 package id.ac.ui.cs.pustakaone.admin.model;
 import jakarta.persistence.*;
-import java.util.UUID;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
