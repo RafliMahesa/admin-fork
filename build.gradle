@@ -49,9 +49,16 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: ['**/*Application**'])
+		}))
+	}
 	dependsOn(tasks.test)
 	reports {
 		xml.required.set(true)
+		csv.required.set(true)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
 	}
 }
 
