@@ -3,7 +3,7 @@ name: Deployment
 on:
   push:
     branches:
-      - main
+      - feat/retrieve-update-delete-list-user
 
 jobs:
   build:
@@ -62,6 +62,11 @@ jobs:
           ./gradlew check --info --stacktrace
           ./gradlew test
           ./gradlew jacocoTestReport
+        env:
+          PRODUCTION: ${{ secrets.PRODUCTION }}
+          JDBC_DATABASE_PASSWORD: ${{ secrets.JDBC_DATABASE_PASSWORD }}
+          JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
+          JDBC_DATABASE_USERNAME : ${{ secrets.JDBC_DATABASE_USERNAME }}
   publish:
     name: Publish Docker Image
     runs-on: ubuntu-latest
