@@ -26,7 +26,7 @@ public class AdminRepository {
     }
 
     public ResponseEntity<String> updatePayment(Long idCart) {
-        String url = "http://localhost:8080/all-logs";
+        String url = "http://localhost:8081/shop/cart/finishPayments";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(createJsonBody(idCart), headers);
@@ -52,6 +52,6 @@ public class AdminRepository {
     }
 
     public String createJsonBody(Long idCart) {
-        return "{\"id\":\"" + idCart + "\"}";
+        return "{\"idCart\":" + idCart + "}";
     }
 }
