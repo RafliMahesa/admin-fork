@@ -105,7 +105,7 @@ public class AdminRepositoryTest {
     public void testCreateJsonBody() {
         // Arrange
         Long idCart = Long.valueOf(123);
-        String expectedJsonBody = "{\"id\":\"123\"}";
+        String expectedJsonBody = "{\"idCart\":" + 123 + "}";
 
         // Act
         String result = adminRepository.createJsonBody(idCart);
