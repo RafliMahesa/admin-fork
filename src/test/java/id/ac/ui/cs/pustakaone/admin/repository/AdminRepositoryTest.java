@@ -39,78 +39,51 @@ public class AdminRepositoryTest {
 
     @Test
     public void testRetrieveUsers() {
-        // Arrange
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
         when(restTemplate.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> result = adminRepository.retrieveUsers();
 
-        // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("User List", result.getBody());
     }
 
+    @Test
+    public void testDeleteReview() {
+        Long reviewId = 5L;
+        String url = String.format("http://localhost:8081/review/%s/delete", reviewId);
+        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
+
+        when(restTemplate.exchange(url, HttpMethod.DELETE, null, String.class))
+                .thenReturn(expectedResponse);
+
+        ResponseEntity<String> result = adminRepository.deleteReview(reviewId);
+
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Review Deleted", result.getBody());
+    }
 
     @Test
     public void testUpdatePayment() {
-        // Arrange
-        Long idCart = Long.valueOf(123);
+        Long idCart = 123L;
         String expectedResponseBody = "{\"status\":\"success\"}";
         ResponseEntity<String> expectedResponse = new ResponseEntity<>(expectedResponseBody, HttpStatus.OK);
         when(restTemplate.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> result = adminRepository.updatePayment(idCart);
 
-        // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(expectedResponseBody, result.getBody());
     }
 
-    @Test
-    public void deleteReviewTest_Success() {
-        // Arrange
-        Long idReview = 1L;
-        String mockResponse = "{\"idBook\":123}";
-        ResponseEntity<String> mockEntity = new ResponseEntity<>(mockResponse, HttpStatus.OK);
-        when(restTemplate.exchange("http://localhost:8080/testing", HttpMethod.GET, null, String.class))
-            .thenReturn(mockEntity);
-        when(restTemplate.exchange("http://localhost:8080/review/123/1/delete", HttpMethod.DELETE, null, String.class))
-            .thenReturn(new ResponseEntity<>("Deleted", HttpStatus.OK));
-
-        // Act
-        ResponseEntity<String> response = adminRepository.deleteReview(idReview);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Deleted", response.getBody());
-    }
-
-    @Test
-    public void deleteReviewTest_Failure() {
-        // Arrange
-        Long idReview = 1L;
-        when(restTemplate.exchange("http://localhost:8080/testing", HttpMethod.GET, null, String.class))
-            .thenReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
-        // Act
-        ResponseEntity<String> response = adminRepository.deleteReview(idReview);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
 
     @Test
     public void testCreateJsonBody() {
-        // Arrange
-        Long idCart = Long.valueOf(123);
-        String expectedJsonBody = "{\"id\":\"123\"}";
+        Long idCart = 123L;
+        String expectedJsonBody = "{\"idCart\":" + 123 + "}";
 
-        // Act
         String result = adminRepository.createJsonBody(idCart);
 
-        // Assert
         assertEquals(expectedJsonBody, result);
     }
 }

@@ -26,7 +26,7 @@ public class AdminRepository {
     }
 
     public ResponseEntity<String> updatePayment(Long idCart) {
-        String url = "http://localhost:8080/all-logs";
+        String url = "http://localhost:8081/shop/cart/finishPayments";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(createJsonBody(idCart), headers);
@@ -35,23 +35,11 @@ public class AdminRepository {
     }
 
     public ResponseEntity<String> deleteReview(Long idReview){
-        ObjectMapper mapper = new ObjectMapper();
-        String url = "http://localhost:8080/testing";
-        ResponseEntity<String> idBookResponse = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-        Long idBook;
-        
-        try {
-            HashMap<String, Long> map = mapper.readValue(idBookResponse.getBody(), new TypeReference<HashMap<String, Long>>() {});
-            idBook = map.get("idBook");
-    
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        String url2 = String.format("http://localhost:8080/review/%s/%s/delete", idBook, idReview);
+        String url2 = String.format("http://localhost:8081/review/%s/delete", idReview);
         return restTemplate.exchange(url2, HttpMethod.DELETE, null, String.class);
     }
 
     public String createJsonBody(Long idCart) {
-        return "{\"id\":\"" + idCart + "\"}";
+        return "{\"idCart\":" + idCart + "}";
     }
 }
