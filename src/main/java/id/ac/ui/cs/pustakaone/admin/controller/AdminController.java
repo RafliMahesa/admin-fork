@@ -23,12 +23,24 @@ public class AdminController {
 
     @GetMapping("/payments")
     public ResponseEntity<String> getPayments() {
-        return service.retrievePaymentList();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrievePaymentList().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
     @GetMapping("/users")
     public ResponseEntity<String> getUsers() {
-        return service.retrieveUsers();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrieveUsers().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
     @GetMapping("/logs")
