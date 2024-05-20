@@ -7,41 +7,54 @@ import id.ac.ui.cs.pustakaone.admin.model.*;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private AdminService service;
+    private final AdminService service;
+    private final LogDeleteService logService;
 
-    @Autowired
-    private LogDeleteService logService;
+    public AdminController(AdminService service, LogDeleteService logService) {
+        this.service = service;
+        this.logService = logService;
+    }
 
-    @RequestMapping(value = "/payments", method = RequestMethod.GET)
+    @GetMapping("/payments")
     public ResponseEntity<String> getPayments() {
-        return service.retrievePaymentList();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrievePaymentList().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping("/users")
     public ResponseEntity<String> getUsers() {
-        return service.retrieveUsers();
+        ResponseEntity<String> result;
+        try {
+            result = service.retrieveUsers().get();
+        } catch (Exception e) {
+            result = ResponseEntity.badRequest().build();
+        }
+        return result;
     }
 
-    @RequestMapping(value = "/logs", method = RequestMethod.GET)
+    @GetMapping("/logs")
     public List<Log> getLogs() {
         return logService.getAllLog();
     }
 
-    @RequestMapping(value = "/update-payment", method = RequestMethod.POST)
+    @PostMapping("/update-payment")
     public ResponseEntity<String> updatePayment(@RequestBody HashMap<String, String> body) {
         Long idCart = Long.valueOf(body.get("id"));
         return service.updatePayment(idCart);
     }
 
-    @RequestMapping(value = "/delete-review", method = RequestMethod.POST)
+    @PostMapping("/delete-review")
     public ResponseEntity<String> deleteReview(@RequestBody HashMap<String, String> body) {
         Long idReview = Long.valueOf(body.get("id"));
         return service.deleteReview(idReview);

@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 @SpringBootTest
 public class AdminServiceImplTest {
 
@@ -32,31 +35,29 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void testRetrievePaymentList() {
-        // Arrange
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
-        when(adminRepositoryMock.retrievePaymentList()).thenReturn(expectedResponse);
+    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
+        String expectedResponse = "payment list";
+        CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminRepositoryMock.retrievePaymentList()).thenReturn(mockedFuture);
 
-        // Act
-        ResponseEntity<String> result = adminService.retrievePaymentList();
+        CompletableFuture<ResponseEntity<String>> future = adminService.retrievePaymentList();
+        ResponseEntity<String> response = future.get();
 
-        // Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Payment List", result.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
-    public void testRetrieveUsers() {
-        // Arrange
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
-        when(adminRepositoryMock.retrieveUsers()).thenReturn(expectedResponse);
+    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+        String expectedResponse = "user list";
+        CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
+        when(adminRepositoryMock.retrieveUsers()).thenReturn(mockedFuture);
 
-        // Act
-        ResponseEntity<String> result = adminService.retrieveUsers();
+        CompletableFuture<ResponseEntity<String>> future = adminService.retrieveUsers();
+        ResponseEntity<String> response = future.get();
 
-        // Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("User List", result.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
