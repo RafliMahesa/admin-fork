@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 @ExtendWith(MockitoExtension.class)
 public class AdminRepositoryTest {
 
@@ -24,28 +27,38 @@ public class AdminRepositoryTest {
     private AdminRepository adminRepository;
 
     @Test
-    public void testRetrievePaymentList() {
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment List", HttpStatus.OK);
+    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
 
-        String url = "http://localhost:8081/shop/cart/getCarts";
-        when(restTemplate.exchange(url, HttpMethod.GET, null, String.class))
-                .thenReturn(expectedResponse);
+        String expectedResponse = "response";
+        when(restTemplate.exchange(
+                "http://localhost:8081/shop/cart/getCarts",
+                HttpMethod.GET,
+                null,
+                String.class
+        )).thenReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
 
-        ResponseEntity<String> result = adminRepository.retrievePaymentList();
+        CompletableFuture<ResponseEntity<String>> future = adminRepository.retrievePaymentList();
+        ResponseEntity<String> response = future.get();
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Payment List", result.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
-    public void testRetrieveUsers() {
-        ResponseEntity<String> expectedResponse = new ResponseEntity<>("User List", HttpStatus.OK);
-        when(restTemplate.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(expectedResponse);
+    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+        String expectedResponse = "user list";
+        when(restTemplate.exchange(
+                "https://identity.pustakaone.my.id/auth/getAllUser",
+                HttpMethod.GET,
+                null,
+                String.class
+        )).thenReturn(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
 
-        ResponseEntity<String> result = adminRepository.retrieveUsers();
+        CompletableFuture<ResponseEntity<String>> future = adminRepository.retrieveUsers();
+        ResponseEntity<String> response = future.get();
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("User List", result.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
