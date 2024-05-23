@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
-public class AdminServiceImplTest {
+class AdminServiceImplTest {
 
     @Mock
     private AdminRepository adminRepositoryMock;
@@ -62,30 +62,24 @@ public class AdminServiceImplTest {
 
     @Test
     public void testUpdatePayment() {
-        // Arrange
         Long idCart = Long.valueOf(123);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment Updated", HttpStatus.OK);
         when(adminRepositoryMock.updatePayment(idCart)).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> result = adminService.updatePayment(idCart);
 
-        // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("Payment Updated", result.getBody());
     }
 
     @Test
     public void testDeleteReview() {
-        // Arrange
         Long idReview = Long.valueOf(456);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
         when(adminRepositoryMock.deleteReview(idReview)).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> result = adminService.deleteReview(idReview);
 
-        // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("Review Deleted", result.getBody());
     }

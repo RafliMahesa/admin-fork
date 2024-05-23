@@ -27,7 +27,7 @@ import org.springframework.http.MediaType;
 import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(MockitoExtension.class)
-public class AdminControllerTest {
+class AdminControllerTest {
 
     private MockMvc mockMvc;
 
@@ -46,7 +46,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetPayments() {
+    void testGetPayments() {
         String expectedResponse = "payment data";
         CompletableFuture<ResponseEntity<String>> future = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
         when(adminServiceMock.retrievePaymentList()).thenReturn(future);
@@ -58,7 +58,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetPayments_Exception() {
+    void testGetPayments_Exception() {
         CompletableFuture<ResponseEntity<String>> future = new CompletableFuture<>();
         future.completeExceptionally(new RuntimeException("Error"));
         when(adminServiceMock.retrievePaymentList()).thenReturn(future);
@@ -69,7 +69,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetUsers_Exception() {
+    void testGetUsers_Exception() {
         CompletableFuture<ResponseEntity<String>> future = new CompletableFuture<>();
         future.completeExceptionally(new RuntimeException("Error"));
         when(adminServiceMock.retrieveUsers()).thenReturn(future);
@@ -81,7 +81,7 @@ public class AdminControllerTest {
 
 
     @Test
-    public void testGetUsers() {
+    void testGetUsers() {
         String expectedResponse = "user data";
         CompletableFuture<ResponseEntity<String>> future = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
         when(adminServiceMock.retrieveUsers()).thenReturn(future);
@@ -93,7 +93,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testGetLogs() throws Exception {
+    void testGetLogs() throws Exception {
         Log log1 = new Log();
         Log log2 = new Log();
         List<Log> logs = Arrays.asList(log1, log2);
@@ -108,7 +108,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testUpdatePayment() throws Exception {
+    void testUpdatePayment() throws Exception {
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment Updated", HttpStatus.OK);
         when(adminServiceMock.updatePayment(123L)).thenReturn(expectedResponse);
 
@@ -120,7 +120,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testDeleteReview() throws Exception {
+    void testDeleteReview() throws Exception {
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
         when(adminServiceMock.deleteReview(456L)).thenReturn(expectedResponse);
 

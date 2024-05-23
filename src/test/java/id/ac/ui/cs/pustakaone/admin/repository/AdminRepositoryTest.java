@@ -18,16 +18,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @ExtendWith(MockitoExtension.class)
-public class AdminRepositoryTest {
+class AdminRepositoryTest {
 
     @Mock
-    public RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
     @InjectMocks
     private AdminRepository adminRepository;
 
     @Test
-    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
+    void testRetrievePaymentList() throws ExecutionException, InterruptedException {
 
         String expectedResponse = "response";
         when(restTemplate.exchange(
@@ -45,7 +45,7 @@ public class AdminRepositoryTest {
     }
 
     @Test
-    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+    void testRetrieveUsers() throws ExecutionException, InterruptedException {
         String expectedResponse = "user list";
         when(restTemplate.exchange(
                 "https://identity.pustakaone.my.id/auth/getAllUser",
@@ -62,7 +62,7 @@ public class AdminRepositoryTest {
     }
 
     @Test
-    public void testDeleteReview() {
+    void testDeleteReview() {
         Long reviewId = 5L;
         String url = String.format("http://localhost:8081/review/%s/delete", reviewId);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
@@ -77,7 +77,7 @@ public class AdminRepositoryTest {
     }
 
     @Test
-    public void testUpdatePayment() {
+    void testUpdatePayment() {
         Long idCart = 123L;
         String expectedResponseBody = "{\"status\":\"success\"}";
         ResponseEntity<String> expectedResponse = new ResponseEntity<>(expectedResponseBody, HttpStatus.OK);
@@ -91,7 +91,7 @@ public class AdminRepositoryTest {
 
 
     @Test
-    public void testCreateJsonBody() {
+    void testCreateJsonBody() {
         Long idCart = 123L;
         String expectedJsonBody = "{\"idCart\":" + 123 + "}";
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class LogDeleteServiceTest {
+class LogDeleteServiceTest {
 
     @Mock
     private LogRepository logRepository;
@@ -26,7 +26,7 @@ public class LogDeleteServiceTest {
     private LogDeleteService logDeleteService;
 
     @Test
-    public void testActionReturnsCorrectMessage() {
+    void testActionReturnsCorrectMessage() {
         Long id = Long.valueOf(123);
         String expectedMessage = "Review dengan id 123 berhasil dihapus";
 
@@ -36,7 +36,7 @@ public class LogDeleteServiceTest {
     }
 
     @Test
-    public void testCreateLog() {
+    void testCreateLog() {
         Long id = Long.valueOf(123);
         Log expectedLog = new Log("Review dengan id 123 berhasil dihapus", logDeleteService.getCurrentDate());
         when(logRepository.save(any(Log.class))).thenReturn(expectedLog);
@@ -48,17 +48,14 @@ public class LogDeleteServiceTest {
     }
 
     @Test
-    public void testGetAllLog() {
-        // Arrange
+    void testGetAllLog() {
         List<Log> logs = new ArrayList<>();
         logs.add(new Log("Action 1", "01-01-2024"));
         logs.add(new Log("Action 2", "02-01-2024"));
         when(logRepository.findAll()).thenReturn(logs);
 
-        // Act
         List<Log> result = logDeleteService.getAllLog();
 
-        // Assert
         assertEquals(2, result.size());
         assertEquals("Action 1", result.get(0).getAction());
         assertEquals("01-01-2024", result.get(0).getDate());
