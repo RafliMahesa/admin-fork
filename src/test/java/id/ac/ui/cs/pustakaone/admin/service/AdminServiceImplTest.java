@@ -35,7 +35,7 @@ class AdminServiceImplTest {
     }
 
     @Test
-    public void testRetrievePaymentList() throws ExecutionException, InterruptedException {
+    void testRetrievePaymentList() throws ExecutionException, InterruptedException {
         String expectedResponse = "payment list";
         CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
         when(adminRepositoryMock.retrievePaymentList()).thenReturn(mockedFuture);
@@ -48,7 +48,7 @@ class AdminServiceImplTest {
     }
 
     @Test
-    public void testRetrieveUsers() throws ExecutionException, InterruptedException {
+    void testRetrieveUsers() throws ExecutionException, InterruptedException {
         String expectedResponse = "user list";
         CompletableFuture<ResponseEntity<String>> mockedFuture = CompletableFuture.completedFuture(new ResponseEntity<>(expectedResponse, HttpStatus.OK));
         when(adminRepositoryMock.retrieveUsers()).thenReturn(mockedFuture);
@@ -61,7 +61,7 @@ class AdminServiceImplTest {
     }
 
     @Test
-    public void testUpdatePayment() {
+    void testUpdatePayment() {
         Long idCart = Long.valueOf(123);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Payment Updated", HttpStatus.OK);
         when(adminRepositoryMock.updatePayment(idCart)).thenReturn(expectedResponse);
@@ -73,7 +73,7 @@ class AdminServiceImplTest {
     }
 
     @Test
-    public void testDeleteReview() {
+    void testDeleteReview() {
         Long idReview = Long.valueOf(456);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
         when(adminRepositoryMock.deleteReview(idReview)).thenReturn(expectedResponse);
