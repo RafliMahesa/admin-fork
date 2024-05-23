@@ -1,15 +1,11 @@
 package id.ac.ui.cs.pustakaone.admin.repository;
 
-import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Repository
 public class AdminRepository {

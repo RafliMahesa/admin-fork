@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class LogRepositoryTest {
+class LogRepositoryTest {
 
     @Autowired
     private LogRepository logRepository;
