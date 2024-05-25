@@ -71,4 +71,9 @@ public class AdminServiceImpl implements AdminService{
 
         return null;
     }
+
+    @Override
+    public ResponseEntity<String> updateBook(Long idBook, CreateUpdateBookDTO updateBookDto){
+        return null;
+    }
 }

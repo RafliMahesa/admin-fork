@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.eq;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -33,6 +35,9 @@ class AdminServiceImplTest {
 
     @Mock
     private LogUpdateService logUpdateServiceMock;
+
+    @Mock
+    private LogUpdateBookService logUpdateBookService;
 
     @Mock
     private ObjectMapper objectMapperMock;
@@ -151,5 +156,22 @@ class AdminServiceImplTest {
         // Verify the response status and body
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("{\"error\": \"Failed to create book\"}", result.getBody());
+    }
+
+    @Test
+    void testUpdateBookSuccessful() {
+        // Arrange
+        Long idBook = 123L;
+        CreateUpdateBookDTO updateBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
+
+        when(adminRepositoryMock.updateBook(eq(idBook), any(CreateUpdateBookDTO.class))).thenReturn(expectedResponse);
+
+        // Act
+        ResponseEntity<String> result = adminService.updateBook(idBook, updateBookDto);
+
+        // Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Book updated successfully", result.getBody());
     }
 }

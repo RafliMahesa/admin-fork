@@ -12,4 +12,7 @@ public interface AdminService {
     ResponseEntity<String> createBook(CreateUpdateBookDTO createBookDto);
     ResponseEntity<String> updatePayment(Long idCart);
     ResponseEntity<String> deleteReview(Long idReview);
+
+    ResponseEntity<String> updateBook(Long idReview, CreateUpdateBookDTO createUpdateDto);
+
 }
