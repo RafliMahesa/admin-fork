@@ -63,6 +63,6 @@ public class AdminController {
 
     @PostMapping("/create-book")
     public ResponseEntity<String> createBook(@RequestBody CreateUpdateBookDTO createBookDto) {
-        return null;
+        return service.createBook(createBookDto);
     }
 }
