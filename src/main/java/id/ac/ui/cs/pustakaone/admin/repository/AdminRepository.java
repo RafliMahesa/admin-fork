@@ -49,6 +49,12 @@ public class AdminRepository {
     }
 
     public ResponseEntity<String> createBook(CreateUpdateBookDTO createBookDto) {
-        return null;
+        String url = BOOKSHOP_URL + "/book";
+
+        try {
+            return restTemplate.postForEntity(url, createBookDto, String.class);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create book: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
