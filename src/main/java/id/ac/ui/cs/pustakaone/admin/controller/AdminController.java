@@ -67,6 +67,6 @@ public class AdminController {
     }
     @PutMapping("/update-book/{id}")
     public ResponseEntity<String> updateBook(@PathVariable long id,@RequestBody CreateUpdateBookDTO updateBookDto) {
-        return null;
+        return service.updateBook(id, updateBookDto);
     }
 }
