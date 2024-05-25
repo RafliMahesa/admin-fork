@@ -65,4 +65,8 @@ public class AdminController {
     public ResponseEntity<String> createBook(@RequestBody CreateUpdateBookDTO createBookDto) {
         return service.createBook(createBookDto);
     }
+    @PutMapping("/update-book/{id}")
+    public ResponseEntity<String> updateBook(@PathVariable long id,@RequestBody CreateUpdateBookDTO updateBookDto) {
+        return null;
+    }
 }
