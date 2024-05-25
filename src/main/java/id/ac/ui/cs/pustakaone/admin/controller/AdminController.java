@@ -1,4 +1,5 @@
 package id.ac.ui.cs.pustakaone.admin.controller;
+import id.ac.ui.cs.pustakaone.admin.dto.CreateUpdateBookDTO;
 import id.ac.ui.cs.pustakaone.admin.service.AdminService;
 import id.ac.ui.cs.pustakaone.admin.service.LogDeleteService;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,10 @@ public class AdminController {
     public ResponseEntity<String> deleteReview(@RequestBody HashMap<String, String> body) {
         Long idReview = Long.valueOf(body.get("id"));
         return service.deleteReview(idReview);
+    }
+
+    @PostMapping("/create-book")
+    public ResponseEntity<String> createBook(@RequestBody CreateUpdateBookDTO createBookDto) {
+        return null;
     }
 }

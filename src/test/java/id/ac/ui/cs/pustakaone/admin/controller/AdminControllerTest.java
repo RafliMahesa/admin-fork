@@ -1,5 +1,6 @@
 package id.ac.ui.cs.pustakaone.admin.controller;
 
+import id.ac.ui.cs.pustakaone.admin.dto.CreateUpdateBookDTO;
 import id.ac.ui.cs.pustakaone.admin.model.Log;
 import id.ac.ui.cs.pustakaone.admin.service.AdminService;
 import id.ac.ui.cs.pustakaone.admin.service.LogDeleteService;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import org.springframework.http.MediaType;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -128,6 +130,42 @@ class AdminControllerTest {
                         .content("{\"id\":\"456\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Review Deleted"));
+    }
+
+    @Test
+    void testCreateBookSuccessful() throws Exception {
+        // Arrange
+        CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        String requestBody = "{\"title\":\"Test Book\", \"author\":\"Test Author\"}";
+        String responseBody = "{\"bookId\": 123}";
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(responseBody, HttpStatus.OK);
+
+        when(adminServiceMock.createBook(any(CreateUpdateBookDTO.class))).thenReturn(responseEntity);
+
+        // Act & Assert
+        mockMvc.perform(post("/admin/create-book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseBody));
+    }
+
+    @Test
+    void testCreateBookFailure() throws Exception {
+        // Arrange
+        CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        String requestBody = "{\"title\":\"Test Book\", \"author\":\"Test Author\"}";
+        String responseBody = "Failed to create book: Connection refused";
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+
+        when(adminServiceMock.createBook(any(CreateUpdateBookDTO.class))).thenReturn(responseEntity);
+
+        // Act & Assert
+        mockMvc.perform(post("/admin/create-book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(responseBody));
     }
 }
 
