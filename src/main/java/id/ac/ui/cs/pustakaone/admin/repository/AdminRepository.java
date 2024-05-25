@@ -2,6 +2,8 @@ package id.ac.ui.cs.pustakaone.admin.repository;
 
 import java.util.concurrent.CompletableFuture;
 
+import id.ac.ui.cs.pustakaone.admin.dto.CreateUpdateBookDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
@@ -13,20 +15,23 @@ public class AdminRepository {
     
     private RestTemplate restTemplate = new RestTemplate();
 
+    @Value("${bookshop.url}")
+    private String BOOKSHOP_URL;
+
     @Async
     public CompletableFuture<ResponseEntity<String>> retrievePaymentList() {
-        String url = "http://localhost:8081/shop/cart/getCarts";
+        String url = BOOKSHOP_URL + "/shop/cart/getCarts";
         return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 
     @Async
     public CompletableFuture<ResponseEntity<String>> retrieveUsers() {
-        String url = "https://identity.pustakaone.my.id/auth/getAllUser";
+        String url = BOOKSHOP_URL + "/auth/getAllUser";
         return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 
     public ResponseEntity<String> updatePayment(Long idCart) {
-        String url = "http://localhost:8081/shop/cart/finishPayments";
+        String url = BOOKSHOP_URL + "/shop/cart/finishPayments";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(createJsonBody(idCart), headers);
@@ -35,7 +40,7 @@ public class AdminRepository {
     }
 
     public ResponseEntity<String> deleteReview(Long idReview){
-        String url2 = String.format("http://localhost:8081/review/%s/delete", idReview);
+        String url2 = String.format("%s/review/%s/delete", BOOKSHOP_URL, idReview);
         return restTemplate.exchange(url2, HttpMethod.DELETE, null, String.class);
     }
 
