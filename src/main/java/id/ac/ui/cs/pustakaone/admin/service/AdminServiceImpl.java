@@ -56,7 +56,18 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public ResponseEntity<String> createBook(CreateUpdateBookDTO createBookDto) {
-
+        ResponseEntity<String> createdBookResponse = adminRepository.createBook(createBookDto);
+        if (createdBookResponse.getStatusCode() == HttpStatus.OK) {
+            try {
+                JsonNode root = objectMapper.readTree(createdBookResponse.getBody());
+                System.out.println(root);
+                Long bookId = root.path("bookId").asLong();
+                logCreateBookService.createLog(bookId);
+            } catch (Exception e) {
+                System.out.println(e);
+                return new ResponseEntity<>("Failed to process response: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
 
         return null;
     }
