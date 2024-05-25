@@ -36,7 +36,7 @@ class AdminRepositoryTest {
 
         String expectedResponse = "response";
         when(restTemplate.exchange(
-                "http://localhost:8081/shop/cart/getCarts",
+                BOOKSHOP_URL + "/shop/cart/getCarts",
                 HttpMethod.GET,
                 null,
                 String.class
@@ -53,7 +53,7 @@ class AdminRepositoryTest {
     void testRetrieveUsers() throws ExecutionException, InterruptedException {
         String expectedResponse = "user list";
         when(restTemplate.exchange(
-                "https://identity.pustakaone.my.id/auth/getAllUser",
+                BOOKSHOP_URL + "/auth/getAllUser",
                 HttpMethod.GET,
                 null,
                 String.class
@@ -69,7 +69,7 @@ class AdminRepositoryTest {
     @Test
     void testDeleteReview() {
         Long reviewId = 5L;
-        String url = String.format("http://localhost:8081/review/%s/delete", reviewId);
+        String url = String.format("%s/review/%s/delete", BOOKSHOP_URL, reviewId);
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Review Deleted", HttpStatus.OK);
 
         when(restTemplate.exchange(url, HttpMethod.DELETE, null, String.class))
