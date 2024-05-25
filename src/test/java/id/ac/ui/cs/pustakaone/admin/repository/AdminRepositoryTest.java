@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
+import id.ac.ui.cs.pustakaone.admin.dto.CreateUpdateBookDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -98,6 +99,37 @@ class AdminRepositoryTest {
         String result = adminRepository.createJsonBody(idCart);
 
         assertEquals(expectedJsonBody, result);
+    }
+
+    @Test
+    void testCreateBookSuccessful() {
+        // Arrange
+        CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        ResponseEntity<String> expectedResponse = new ResponseEntity<>("{\"bookId\": 123}", HttpStatus.OK);
+        when(restTemplate.postForEntity(any(String.class), any(CreateUpdateBookDTO.class), any(Class.class)))
+                .thenReturn(expectedResponse);
+
+        // Act
+        ResponseEntity<String> result = adminRepository.createBook(createBookDto);
+
+        // Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("{\"bookId\": 123}", result.getBody());
+    }
+
+    @Test
+    void testCreateBookFailure() {
+        // Arrange
+        CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        when(restTemplate.postForEntity(any(String.class), any(CreateUpdateBookDTO.class), any(Class.class)))
+                .thenThrow(new RuntimeException("Connection refused"));
+
+        // Act
+        ResponseEntity<String> result = adminRepository.createBook(createBookDto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+        assertEquals("Failed to create book: Connection refused", result.getBody());
     }
 }
 

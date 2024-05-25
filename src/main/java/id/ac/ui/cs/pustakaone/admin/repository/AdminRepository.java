@@ -47,4 +47,8 @@ public class AdminRepository {
     public String createJsonBody(Long idCart) {
         return "{\"idCart\":" + idCart + "}";
     }
+
+    public ResponseEntity<String> createBook(CreateUpdateBookDTO createBookDto) {
+        return null;
+    }
 }
