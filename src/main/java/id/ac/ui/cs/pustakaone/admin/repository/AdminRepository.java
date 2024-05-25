@@ -57,4 +57,8 @@ public class AdminRepository {
             return new ResponseEntity<>("Failed to create book: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    public ResponseEntity<String> updateBook(Long bookId, CreateUpdateBookDTO updateBookDto) {
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ package id.ac.ui.cs.pustakaone.admin.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 import id.ac.ui.cs.pustakaone.admin.dto.CreateUpdateBookDTO;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,8 @@ import java.util.concurrent.ExecutionException;
 
 @ExtendWith(MockitoExtension.class)
 class AdminRepositoryTest {
-
+    @Value("${bookshop.url}")
+    private String BOOKSHOP_URL;
     @Mock
     RestTemplate restTemplate;
 
@@ -130,6 +134,49 @@ class AdminRepositoryTest {
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("Failed to create book: Connection refused", result.getBody());
+    }
+
+    @Test
+    void testUpdateBookSuccessful() {
+        // Arrange
+        Long bookId = 123L;
+        CreateUpdateBookDTO updateBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        ResponseEntity<String> expectedResponse = new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
+
+        when(restTemplate.exchange(
+                eq(BOOKSHOP_URL+ "/book/" +  bookId),
+                eq(HttpMethod.PUT),
+                any(HttpEntity.class),
+                eq(String.class)
+        )).thenReturn(expectedResponse);
+
+        // Act
+        ResponseEntity<String> result = adminRepository.updateBook(bookId, updateBookDto);
+
+        // Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Book updated successfully", result.getBody());
+    }
+
+    @Test
+    void testUpdateBookFailure() {
+        // Arrange
+        Long bookId = 123L;
+        CreateUpdateBookDTO updateBookDto = new CreateUpdateBookDTO(); // Initialize with required data
+        String errorMessage = "Connection refused";
+        when(restTemplate.exchange(
+                eq(BOOKSHOP_URL + "/book/" + bookId),
+                eq(HttpMethod.PUT),
+                any(HttpEntity.class),
+                eq(String.class)
+        )).thenThrow(new RuntimeException(errorMessage));
+
+        // Act
+        ResponseEntity<String> result = adminRepository.updateBook(bookId, updateBookDto);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+        assertEquals("Failed to update book: " + errorMessage, result.getBody());
     }
 }
 
