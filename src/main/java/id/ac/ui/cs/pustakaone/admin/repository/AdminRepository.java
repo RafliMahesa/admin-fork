@@ -64,7 +64,6 @@ public class AdminRepository {
             HttpEntity<CreateUpdateBookDTO> requestEntity = new HttpEntity<>(updateBookDto);
             return restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>("Failed to update book: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
