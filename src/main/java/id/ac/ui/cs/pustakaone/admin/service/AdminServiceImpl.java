@@ -69,7 +69,7 @@ public class AdminServiceImpl implements AdminService{
             }
         }
 
-        return null;
+        return createdBookResponse;
     }
 
     @Override
