@@ -17,20 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class LogUpdateServiceTest {
+class LogCreateBookServiceTest {
 
     @Mock
     private LogRepository logRepository;
 
     @InjectMocks
-    private LogUpdateService logUpdateService;
+    private LogCreateBookService logCreateBookService;
 
     @Test
     void testActionReturnsCorrectMessage() {
         Long id = Long.valueOf(456);
-        String expectedMessage = "Cart dengan id 456 berhasil diupdate";
+        String expectedMessage = String.format("Berhasil membuat buku dengan id %s", id);
 
-        String actualMessage = logUpdateService.action(id);
+        String actualMessage = logCreateBookService.action(id);
 
         assertEquals(expectedMessage, actualMessage);
     }
@@ -38,10 +38,10 @@ class LogUpdateServiceTest {
     @Test
     void testCreateLog() {
         Long id = Long.valueOf(456);
-        Log expectedLog = new Log("Cart dengan id 456 berhasil diupdate", logUpdateService.getCurrentDate());
+        Log expectedLog = new Log(String.format("Berhasil membuat buku dengan id %s", id), logCreateBookService.getCurrentDate());
         when(logRepository.save(any(Log.class))).thenReturn(expectedLog);
 
-        Log result = logUpdateService.createLog(id);
+        Log result = logCreateBookService.createLog(id);
 
         assertEquals(expectedLog.getAction(), result.getAction());
         assertEquals(expectedLog.getDate(), result.getDate());
@@ -54,7 +54,7 @@ class LogUpdateServiceTest {
         logs.add(new Log("Action 2", "02-01-2024"));
         when(logRepository.findAll()).thenReturn(logs);
 
-        List<Log> result = logUpdateService.getAllLog();
+        List<Log> result = logCreateBookService.getAllLog();
 
         assertEquals(2, result.size());
         assertEquals("Action 1", result.get(0).getAction());
@@ -63,6 +63,3 @@ class LogUpdateServiceTest {
         assertEquals("02-01-2024", result.get(1).getDate());
     }
 }
-
-
-
