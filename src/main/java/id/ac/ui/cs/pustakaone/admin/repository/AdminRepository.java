@@ -18,6 +18,9 @@ public class AdminRepository {
     @Value("${bookshop.url}")
     private String BOOKSHOP_URL;
 
+    @Value("${authentication.url}")
+    private String AUTHENTICATION_URL;
+
     @Async
     public CompletableFuture<ResponseEntity<String>> retrievePaymentList() {
         String url = BOOKSHOP_URL + "/shop/cart/getCarts";
@@ -26,7 +29,7 @@ public class AdminRepository {
 
     @Async
     public CompletableFuture<ResponseEntity<String>> retrieveUsers() {
-        String url = BOOKSHOP_URL + "/auth/getAllUser";
+        String url = AUTHENTICATION_URL + "/user/profiles";
         return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 

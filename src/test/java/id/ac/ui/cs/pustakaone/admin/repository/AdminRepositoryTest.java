@@ -25,6 +25,10 @@ import java.util.concurrent.ExecutionException;
 class AdminRepositoryTest {
     @Value("${bookshop.url}")
     private String BOOKSHOP_URL;
+
+    @Value("${authentication.url}")
+    private String AUTHENTICATION_URL;
+
     @Mock
     RestTemplate restTemplate;
 
@@ -53,7 +57,7 @@ class AdminRepositoryTest {
     void testRetrieveUsers() throws ExecutionException, InterruptedException {
         String expectedResponse = "user list";
         when(restTemplate.exchange(
-                BOOKSHOP_URL + "/auth/getAllUser",
+                AUTHENTICATION_URL + "/user/profiles",
                 HttpMethod.GET,
                 null,
                 String.class
