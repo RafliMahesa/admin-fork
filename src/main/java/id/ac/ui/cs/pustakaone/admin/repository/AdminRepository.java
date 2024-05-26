@@ -24,6 +24,7 @@ public class AdminRepository {
     @Async
     public CompletableFuture<ResponseEntity<String>> retrievePaymentList() {
         String url = BOOKSHOP_URL + "/shop/cart/getCarts";
+        System.out.println("Test");
         return CompletableFuture.supplyAsync(() -> restTemplate.exchange(url, HttpMethod.GET, null, String.class));
     }
 
