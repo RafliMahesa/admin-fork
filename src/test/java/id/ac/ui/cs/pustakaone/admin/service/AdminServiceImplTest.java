@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.eq;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -127,50 +126,48 @@ class AdminServiceImplTest {
 
     @Test
     void testCreateBookFailedToProcessResponse() throws Exception {
-        // Mocking the dependencies
+
         CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
         ResponseEntity<String> createdBookResponse = new ResponseEntity<>("Invalid JSON", HttpStatus.OK);
         when(adminRepositoryMock.createBook(createBookDto)).thenReturn(createdBookResponse);
 
-        // Mock the ObjectMapper behavior to throw an exception
+
         when(objectMapperMock.readTree(any(String.class))).thenThrow(new RuntimeException("Unexpected character ('I' (code 73)): was expecting double-quote to start field name"));
 
-        // Test the createBook method
         ResponseEntity<String> result = adminService.createBook(createBookDto);
 
-        // Verify the response status and body
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
         assertEquals("Failed to process response: Unexpected character ('I' (code 73)): was expecting double-quote to start field name", result.getBody());
     }
 
     @Test
     void testCreateBookUnsuccessful() throws Exception {
-        // Mocking the dependencies
+
         CreateUpdateBookDTO createBookDto = new CreateUpdateBookDTO(); // Initialize with required data
         ResponseEntity<String> createdBookResponse = new ResponseEntity<>("{\"error\": \"Failed to create book\"}", HttpStatus.BAD_REQUEST);
         when(adminRepositoryMock.createBook(createBookDto)).thenReturn(createdBookResponse);
 
-        // Test the createBook method
+
         ResponseEntity<String> result = adminService.createBook(createBookDto);
 
-        // Verify the response status and body
+
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals("{\"error\": \"Failed to create book\"}", result.getBody());
     }
 
     @Test
     void testUpdateBookSuccessful() {
-        // Arrange
+
         Long idBook = 123L;
         CreateUpdateBookDTO updateBookDto = new CreateUpdateBookDTO(); // Initialize with required data
         ResponseEntity<String> expectedResponse = new ResponseEntity<>("Book updated successfully", HttpStatus.OK);
 
         when(adminRepositoryMock.updateBook(eq(idBook), any(CreateUpdateBookDTO.class))).thenReturn(expectedResponse);
 
-        // Act
+
         ResponseEntity<String> result = adminService.updateBook(idBook, updateBookDto);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("Book updated successfully", result.getBody());
     }
